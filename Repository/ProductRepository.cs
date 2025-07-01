@@ -13,9 +13,9 @@ public class ProductRepository : IProductRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Product>> GetProducts()
+    public async Task<IEnumerable<Product>> GetProducts(int page, int pageSize)
     {
-        return await _context.Products.Find(_ => true).ToListAsync();
+        return await _context.Products.Find(_ => true).Skip((page - 1) * pageSize).Limit(pageSize).ToListAsync();
     }
 
     public async Task<Product> GetProduct(string id)
@@ -23,16 +23,16 @@ public class ProductRepository : IProductRepository
         return await _context.Products.Find(p => p.Id == id).FirstOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<Product>> GetProductByName(string name)
+    public async Task<IEnumerable<Product>> GetProductByName(string name, int page, int pageSize)
     {
         FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(p => p.Name, name);
-        return await _context.Products.Find(filter).ToListAsync();
+        return await _context.Products.Find(filter).Skip((page - 1) * pageSize).Limit(pageSize).ToListAsync();
     }
 
-    public async Task<IEnumerable<Product>> GetProductByCategory(string categoryName)
+    public async Task<IEnumerable<Product>> GetProductByCategory(string categoryName, int page, int pageSize)
     {
         FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(p => p.Category, categoryName);
-        return await _context.Products.Find(filter).ToListAsync();
+        return await _context.Products.Find(filter).Skip((page - 1) * pageSize).Limit(pageSize).ToListAsync();
     }
 
     public async Task CreateProduct(Product product)

@@ -17,9 +17,15 @@ public class ProductController : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetProducts()
+    public async Task<IActionResult> GetProducts(int page = 1, int pageSize = 25)
     {
-        var products = await _productRepository.GetProducts();
+        if (page < 1 || pageSize < 1)
+        {
+            page = 1;
+            pageSize = 25;
+        }
+
+        var products = await _productRepository.GetProducts(page, pageSize);
         return Ok(products);
     }
 
@@ -39,14 +45,20 @@ public class ProductController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Product>))]
-    public async Task<ActionResult<IEnumerable<Product>>> GetProductByCategory(string category)
+    public async Task<ActionResult<IEnumerable<Product>>> GetProductByCategory(string category, int page = 1, int pageSize = 25)
     {
         if(category == null)
         {
             return BadRequest("Category cannot be null");
         }
 
-        var products = await _productRepository.GetProductByCategory(category);
+        if (page < 1 || pageSize < 1)
+        {
+            page = 1;
+            pageSize = 25;
+        }
+
+        var products = await _productRepository.GetProductByCategory(category, page, pageSize);
         return Ok(products);
     }
 
@@ -54,14 +66,20 @@ public class ProductController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Product>))]
-    public async Task<ActionResult<IEnumerable<Product>>> GetProductByName(string name)
+    public async Task<ActionResult<IEnumerable<Product>>> GetProductByName(string name, int page = 1, int pageSize = 25)
     {
         if (string.IsNullOrEmpty(name))
         {
             return BadRequest("Name cannot be null or empty");
         }
 
-        var products = await _productRepository.GetProductByName(name);
+        if (page < 1 || pageSize < 1)
+        {
+            page = 1;
+            pageSize = 25;
+        }
+
+        var products = await _productRepository.GetProductByName(name, page, pageSize);
         return Ok(products);
     }
 
