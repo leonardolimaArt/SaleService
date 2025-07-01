@@ -1,0 +1,25 @@
+volumes:
+    mongo_data:
+
+services:
+    catalogdb:
+        image: mongo
+        container_name: catalogdb
+        restart: always
+        ports:
+        - "27017:27017"
+        volumes:
+            - mongo_data:/data/db
+
+    saleserviceapi:
+        container_name: saleservice.api
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "5000:8080"
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
+        depends_on:
+            - catalogdb
