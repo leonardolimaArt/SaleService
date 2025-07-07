@@ -25,7 +25,7 @@ services:
             context: .
             dockerfile: ./Catalog.API/Dockerfile
         ports:
-            - "8000:80"
+            - "5000:8080"
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
@@ -39,7 +39,7 @@ services:
             context: .
             dockerfile: ./Basket.API/Dockerfile
         ports:
-            - "8001:80"
+            - "5001:8080"
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - "CacheSettings:ConnectionString=basketdb:6379"
