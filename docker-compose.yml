@@ -12,10 +12,10 @@ services:
             - mongo_data:/data/db
 
     saleserviceapi:
-        container_name: saleservice.api
+        container_name: Catalog.API.api
         build:
             context: .
-            dockerfile: Dockerfile
+            dockerfile: ./Catalog.API/Dockerfile
         ports:
             - "5000:8080"
         environment:
