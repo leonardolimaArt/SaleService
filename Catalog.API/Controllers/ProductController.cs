@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using SaleService.Entities;
-using SaleService.Repository;
+using Catalog.API.Entities;
+using Catalog.API.Repository;
 
-namespace SaleService.Controllers;
+namespace Catalog.API.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]

@@ -1,6 +1,6 @@
-using SaleService.Entities;
+using Catalog.API.Entities;
 
-namespace SaleService.Repository;
+namespace Catalog.API.Repository;
 
 public interface IProductRepository
 {
