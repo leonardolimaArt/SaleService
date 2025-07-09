@@ -12,7 +12,13 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = builder.Configuration.GetValue<string>("CacheSettings:ConnectionString");
+    var conn = Environment.GetEnvironmentVariable("REDIS_URL") ?? builder.Configuration.GetValue<string>("CacheSettings:ConnectionString");
+
+    if (string.IsNullOrWhiteSpace(conn))
+                throw new InvalidOperationException("REDIS_URL connection string not found.");
+
+    options.Configuration = conn;
+ 
 });
 
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
