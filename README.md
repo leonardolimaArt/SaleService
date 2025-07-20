@@ -13,7 +13,7 @@ API de microsserviços para um sistema de vendas, construída com .NET e contein
 
 O **SaleService** é uma solução backend para uma aplicação de vendas. Ele é dividido em serviços independentes que se comunicam de forma assíncrona, garantindo resiliência e facilidade de manutenção.
 
-![Arquitetura do SaleService]()
+![Arquitetura do SaleService](doc/arch_diagram.png)
 
 ## Arquitetura
 
