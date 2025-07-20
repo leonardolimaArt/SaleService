@@ -25,7 +25,7 @@ services:
             context: .
             dockerfile: ./Catalog.API/Dockerfile
         ports:
-            - "5000:8080"
+            - "5001:8080"
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
@@ -39,9 +39,25 @@ services:
             context: .
             dockerfile: ./Basket.API/Dockerfile
         ports:
-            - "5001:8080"
+            - "5002:8080"
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - "CacheSettings:ConnectionString=basketdb:6379"
         depends_on:
             - basketdb
+
+    gateway.api:
+        container_name: Gateway.API.api
+        restart: always
+        build:
+            context: .
+            dockerfile: ./Gateway.API/Dockerfile
+        ports:
+            - "5000:8080"
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ReverseProxy:Clusters:catalog-cluster:Destinations:destination1:Address=http://catalog.api:8080
+            - ReverseProxy:Clusters:basket-cluster:Destinations:destination1:Address=http://basket.api:8080
+        depends_on:
+            - catalog.api
+            - basket.api

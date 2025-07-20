@@ -9,7 +9,12 @@ namespace Catalog.API.Data
     {
         public CatalogContext(IConfiguration configuration)
         {
-            var client = new MongoClient(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
+            var conn = Environment.GetEnvironmentVariable("MONGO_URL") ?? configuration.GetValue<string>("DatabaseSettings:ConnectionString");
+            var client = new MongoClient(conn);
+
+            if (string.IsNullOrWhiteSpace(conn))
+                throw new InvalidOperationException("MongoDB connection string not found.");
+
             var database = client.GetDatabase(configuration.GetValue<string>("DatabaseSettings:DatabaseName"));
             Products = database.GetCollection<Product>(configuration.GetValue<string>("DatabaseSettings:CollectionName"));
             CatalogContextSeed.SeedData(Products);
