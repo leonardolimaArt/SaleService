@@ -15,7 +15,7 @@ public class BasketController : ControllerBase
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
 
-    [HttpGet("{userName}", Name = "GetBasket")]
+    [HttpGet("{userName}")]
     public async Task<ActionResult<ShoppingCart>> GetBasket(string userName)
     {
         var basket = await _repository.GetBasket(userName);
